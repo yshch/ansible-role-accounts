@@ -1,0 +1,28 @@
+---
+
+- name: create groups
+  group:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ accounts.groups }}"
+  when:
+    - accounts.groups is defined
+
+- name: create users
+  user:
+    name: "{{ item.name }}"
+    state: present
+    groups: "{{ item.groups | default('') }}"
+    password: "{{ item.passwd | default('') or '*' }}"
+    update_password: on_create
+    shell: /bin/bash
+    comment: "{{ item.gecos | default ('') }}"
+  loop: "{{ accounts.users }}"
+
+- name: set authorized keys for each user
+  authorized_key:
+    user: "{{ item.name }}"
+    key: "{{ item.ssh_authorized_keys | join('\n') }}"
+    state: present
+    exclusive: true
+  loop: "{{ accounts.users }}"
