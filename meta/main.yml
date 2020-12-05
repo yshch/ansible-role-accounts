@@ -1,0 +1,14 @@
+---
+
+galaxy_info:
+  role_name: accounts
+  author: yshch
+  description: Manage user and group accounts.
+  license: MIT
+
+  min_ansible_version: 2.10
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - bionic
