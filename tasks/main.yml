@@ -12,6 +12,8 @@
   user:
     name: "{{ item.name }}"
     state: present
+    uid: "{{ item.uid | default(omit) }}"
+    group: "{{ item.gid | default(omit) }}"
     groups: "{{ item.groups | default('') }}"
     password: "{{ item.passwd | default('') or '*' }}"
     update_password: on_create
